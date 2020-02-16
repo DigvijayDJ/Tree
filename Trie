@@ -1,0 +1,89 @@
+/* package whatever; // don't place package name! */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Trie
+{
+	class Node{
+		char data;
+		Node[] next;
+		boolean isEndOfString;
+		
+	}
+	
+	Node head = null;
+	
+	Node newNode(char ch){
+		Node n = new Node();
+		n.data = ch;
+		n.next = new Node[26];
+		
+		for(int i=0;i<n.next.length;i++){
+			n.next[i] = null;
+		}
+		
+		n.isEndOfString = false;
+		return n;
+	}
+	
+	
+	void insert(String s){
+		int len = s.length();
+		Node curr = head;
+		for(int i=0;i<len;i++){
+			char c = s.charAt(i);
+			int idx = c - 'a';
+			if(curr.next[idx] == null){
+				curr.next[idx] = newNode(c);
+			}
+			
+			//if(i!=len -1){
+				curr = curr.next[idx];
+			//}
+		}
+		curr.isEndOfString = true;
+	}
+	
+	void search(String s){
+		int len = s.length();
+		Node curr = head;
+		for(int i=0;i<len;i++){
+			char c = s.charAt(i);
+			int idx = c - 'a';
+			
+			if(curr.next[idx] == null){
+				break;
+			}
+			//if(i!= len){
+				curr = curr.next[idx];
+			//}
+		}
+		
+		if(curr.isEndOfString == true){
+			System.out.println("Found "+s);
+		}
+		else{
+			System.out.println("not Found "+s);
+		}
+	}
+	
+	
+	
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		// your code goes here
+		String[] strings = { "Digvijay", "shubham", "rishav", "shivu", "bharat" };
+		Trie t = new Trie();
+		t.head = t.newNode(' ');
+		
+		for( int i = 0; i < strings.length; i++ ) {
+			t.insert(strings[i]);	
+		}
+		
+		t.search("Digvijay");
+		t.search("nope");
+	}
+}
